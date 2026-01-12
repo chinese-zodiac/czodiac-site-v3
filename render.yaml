@@ -1,6 +1,23 @@
 services:
-  - type: static
-    name: czodiac-site-v3
-    buildCommand: npm install && npm run build && npm run export
+  - type: web
+    name: czodiac-site
+    runtime: static
+    buildCommand: yarn install && yarn build
     staticPublishPath: ./out
-    plan: starter
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /*.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
