@@ -2,7 +2,7 @@ services:
   - type: web
     name: czodiac-site
     runtime: static
-    buildCommand: yarn install && yarn build
+    buildCommand: yarn install && yarn build && yarn export
     staticPublishPath: ./out
     envVars:
       - key: NODE_VERSION
